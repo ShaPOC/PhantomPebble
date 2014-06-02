@@ -8,8 +8,9 @@
 
  * "/arduino/led/black"      -> Turns LED off
  * "/arduino/led/red"        -> Turns LED Red
- * "/arduino/led/yellow"     -> Turns LED Yellow
+ * "/arduino/led/blue"       -> Turns LED Blue
  * "/arduino/led/green"      -> Turns LED Green
+ * "/arduino/led/blink"      -> Makes the LED Fade in and out
 
  * "/arduino/digit/[number]" -> Shows the number inserted on the 7-segment digit
    You can also set e (for error) in the digit!
@@ -38,7 +39,7 @@ int dot = 7;
 int black[3]  = { 0, 0, 0 };
 int red[3]    = { 100, 0, 0 };
 int green[3]  = { 0, 100, 0 };
-int yellow[3] = { 60, 40, 0 };
+int blue[3] = { 0, 0, 100 };
 
 // Set initial color
 int redVal = black[0];
@@ -51,8 +52,13 @@ int prevG = grnVal;
 int prevB = bluVal;
 
 // Options
-int wait = 10;      // 10ms internal crossFade delay; increase for slower fades
+int wait = 1;      // 10ms internal crossFade delay; increase for slower fades
 int hold = 0;       // Optional hold when a color is complete, before the next crossFade
+
+// Set blinking on or off
+bool blinking = false;
+int currentColor[3] = { 0, 0, 0 };
+int blinkColor[3] = { 0, 0, 0 };
 
 // Listen on default port 5555, the webserver on the Yun
 // will forward there all the HTTP requests for us.
@@ -109,6 +115,25 @@ void loop() {
 
     // Close connection and free resources.
     client.stop();
+  }
+
+  if(blinking) {
+    // It's off
+    if(redVal <= 0 
+    && grnVal <= 0 
+    && bluVal <= 0) {
+      
+      // Turn it back on
+      crossFade(currentColor);
+    }
+    // It's on
+    if(redVal >= blinkColor[0] 
+    && grnVal >= blinkColor[1] 
+    && bluVal >= blinkColor[2]) {
+      
+      // So turn it off
+      crossFade(black);
+    }
   }
 
   delay(50); // Poll every 50ms
@@ -207,26 +232,36 @@ void ledCommand(YunClient client) {
   
   String color = client.readStringUntil('\r');
   
+  if(color == "blink") {
+    blinking = true;
+    client.print("LED Started to blink!");
+    return;
+  }
+  
   if(color == "red") {
     crossFade(red);
+    blinking = false;
     client.print("LED Faded to red!");
     return;
   }
   
-  if(color == "yellow") {
-    crossFade(yellow);
-    client.print("LED Faded to yellow!");
+  if(color == "blue") {
+    crossFade(blue);
+    blinking = false;
+    client.print("LED Faded to blue!");
     return;
   }
   
   if(color == "green") {
     crossFade(green);
+    blinking = false;
     client.print("LED Faded to green!");
     return;
   }
   
   if(color == "black") {
     crossFade(black);
+    blinking = false;
     client.print("LED Faded to black!");
     return;
   }
@@ -453,6 +488,13 @@ int calculateVal(int step, int val, int i) {
 */
 
 void crossFade(int color[3]) {
+  
+  // Set the current color if not blinking
+  if(!blinking) {
+    currentColor[0] = color[0];
+    currentColor[1] = color[1];
+    currentColor[2] = color[2];
+  }
 
   // Convert to 0-255
   int R = (color[0] * 255) / 100;
@@ -474,6 +516,13 @@ void crossFade(int color[3]) {
 
     delay(wait); // Pause for 'wait' milliseconds before resuming the loop
   }
+  
+  if(!blinking) {
+    blinkColor[0] = redVal;
+    blinkColor[1] = grnVal;
+    blinkColor[2] = bluVal;
+  }
+  
   // Update current values for next loop
   prevR = redVal;
   prevG = grnVal;
