@@ -15,8 +15,8 @@ They can ofcourse be found inside the different files in this git, but for the s
 
                 | Username          | Password
 --------------- | ----------------- | -----------------
-SSH             | root              | pebble
-WiFi            | PhantomPebble     | pebble
+SSH             | root              | PhantomPebble
+WiFi            | PhantomPebble     | PhantomPebble
 
 ## Installation
 
