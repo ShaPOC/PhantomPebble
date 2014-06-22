@@ -1,0 +1,34 @@
+{
+  "name": "PhantomPebble",
+  "description": "The Ubiquitous Pebble Framework",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ShaPOC/PhantomPebble",
+  "repository": "https://github.com/ShaPOC/PhantomPebble",
+  "author": {
+    "name": "Jimmy Aupperlee",
+    "email": "j.aup.gt@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/ShaPOC/PhantomPebble/issues"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.4"
+  },
+  "keywords": [
+    "phantom",
+    "pebble",
+    "ubiquitous"
+  ]
+}

@@ -1,0 +1,10 @@
+config arduino
+	option secure_rest_api 'false'
+
+config wifi-device 'radio0'
+
+config wifi-device 'radio1'
+
+config wifi-iface
+
+config interface 'lan'

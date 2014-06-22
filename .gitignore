@@ -1,12 +1,3 @@
-#####################################
-#                                   #
-#     CODEPROGRESSIVE GITIGNORE     #
-#     FOR USE WITH NODE.JS          #
-#                                   #
-#     PHPSTORM & NETBEANS SUPPORT   #
-#                                   #
-#####################################
-
 # Logs
 logs
 *.log
