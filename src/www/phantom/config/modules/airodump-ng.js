@@ -2,7 +2,7 @@
  *
  * PhantomPebble
  *
- * EXPRESS CONFIGURATION
+ * AIRODUMP-NG CONFIGURATION
  *
  * @author Jimmy Aupperlee <jimmy@codeprogressive.com>
  * @copyright codeProgressive

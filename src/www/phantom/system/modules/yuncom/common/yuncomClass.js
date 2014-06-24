@@ -6,7 +6,7 @@
  *
  * CodeProgressive Framework for Node.JS
  *
- * Arduino Board class
+ * Arduino Yun Board Communication class
  *
  * @author Jimmy Aupperlee <jimmy@codeprogressive.com>
  * @copyright codeProgressive
@@ -37,14 +37,7 @@ var paths        = require('../../../includes/paths.js'),
 
 var default_options = {
 
-    databases : [
-        {
-            dbName : "",
-            dbHost : "",
-            dbUser : "",
-            dbPass : ""
-        }
-    ]
+
 };
 
 /*
@@ -57,7 +50,7 @@ var default_options = {
  | the same name as the module
  |
  */
-var arduinoClass = function(name) {
+var yuncomClass = function(name) {
 
     // Merge the default options with the options set in the config file
     this.options = new OptionsClass(name).merge(default_options);
@@ -71,7 +64,7 @@ var arduinoClass = function(name) {
  |
  |
  */
-arduinoClass.prototype.init = function(callback) {
+yuncomClass.prototype.init = function(callback) {
 
     callback(null);
 };
@@ -84,11 +77,11 @@ arduinoClass.prototype.init = function(callback) {
  | gracefully.
  |
  */
-arduinoClass.prototype.destroy = function() {
+yuncomClass.prototype.destroy = function() {
 
     // Close the database connection gracefully
 
 };
 
 // Export the module!
-module.exports = arduinoClass;
+module.exports = yuncomClass;

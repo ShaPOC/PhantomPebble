@@ -6,7 +6,7 @@
  *
  * CodeProgressive Framework for Node.JS
  *
- * Arduino Board control module
+ * Airodump-NG module
  *
  * @author Jimmy Aupperlee <jimmy@codeprogressive.com>
  * @copyright codeProgressive
@@ -26,17 +26,17 @@
  */
 
 // The name of the module
-exports.name = "arduino";
+exports.name = "airodump-ng";
 
 // When the module is being registered
 exports.onRegister = function(app) {
 
-    app.log.info("Arduino : Booting...");
+    app.log.info("Airodump-ng : Booting...");
 
     // Require the "class" file
-    var ArduinoClass = require(__dirname + "/common/arduinoClass.js");
+    var AirodumpNGClass = require(__dirname + "/common/airodump-ngClass.js");
     // Instantiate the mongodb object
-    app.arduino = new ArduinoClass(exports.name);
+    app.arduino = new AirodumpNGClass(exports.name);
 };
 
 
@@ -47,7 +47,7 @@ exports.onRegister = function(app) {
  */
 
 // Constructor
-var arduinobBoot = function(app) {
+var airodumpNGBoot = function(app) {
 
     var self = this;
 
@@ -57,11 +57,11 @@ var arduinobBoot = function(app) {
             throw err;
         }
 
-        app.log.info("Arduino : Sucessfully booted...");
+        app.log.info("Airodump-ng : Sucessfully booted...");
 
         self.done();
     });
 
 };
 
-module.exports.boot = arduinobBoot;
+module.exports.boot = airodumpNGBoot;

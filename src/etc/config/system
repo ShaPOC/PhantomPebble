@@ -1,11 +1,11 @@
 
 config system
-	option hostname 'PhantomPebble'
 	option timezone 'CET-1CEST,M3.5.0,M10.5.0/3'
 	option timezone_desc 'Europe/Amsterdam'
 	option zonename 'Europe/Amsterdam'
 	option conloglevel '8'
 	option cronloglevel '8'
+	option hostname 'PhantomPebble1403529402'
 
 config timeserver 'ntp'
 	list server '0.openwrt.pool.ntp.org'

@@ -64,7 +64,7 @@ Now insert the following commands;
 opkg update
 ```
 ```
-opkg install git screen node node-serialport node-socket.io node-socket.io-client
+opkg install git screen node node-serialport node-socket.io node-socket.io-client aircrack-ng
 ```
 
 We also require the installation of some specific packages not available on the default opkg servers. These packages serve mainly as drivers for the extra Wireless adapter.

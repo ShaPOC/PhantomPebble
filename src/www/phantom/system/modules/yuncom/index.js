@@ -6,7 +6,7 @@
  *
  * CodeProgressive Framework for Node.JS
  *
- * EXPRESS INDEX FILE
+ * Arduino Yun Board Communication class
  *
  * @author Jimmy Aupperlee <jimmy@codeprogressive.com>
  * @copyright codeProgressive
@@ -25,18 +25,18 @@
  |
  */
 
-var expressInit = function(err, app, self) {
+var yuncomInit = function(err, app, self) {
 
     if(err) {
         throw err;
     }
 
-    app.log.info("Express : Booting...");
+    app.log.info("Yun Communication : Booting...");
 
     // Require the "class" file
-    var ExpressClass = require(__dirname + "/common/expressClass.js");
+    var YuncomClass = require(__dirname + "/common/yuncomClass.js");
     // Instantiate the express object
-    app.express = new ExpressClass(exports.name, app);
+    app.yuncom = new YuncomClass(exports.name, app);
 
     self.done();
 };
@@ -52,12 +52,13 @@ var expressInit = function(err, app, self) {
  */
 
 // The name of the module
-exports.name = "express";
+exports.name = "yuncom";
 
 // When the module is being registered
 exports.onRegister = function(app) {
-    // Wait for arduino before starting express!
-    app.waitFor(exports.name, "yuncom", expressInit);
+
+    // Wait for airodump before starting Yun communications!
+    app.waitFor(exports.name, ["airodump-ng", "api"], yuncomInit);
 };
 
 /*
@@ -67,6 +68,6 @@ exports.onRegister = function(app) {
  */
 
 // Constructor
-var expressBoot = function() {};
+var yuncomBoot = function() {};
 
-module.exports.boot = expressBoot;
+module.exports.boot = yuncomBoot;

@@ -14,3 +14,7 @@ config interface 'wan'
 	option ifname 'eth1'
 	option proto 'dhcp'
 	option metric '10'
+
+config interface 'mon'
+	option proto 'none'
+

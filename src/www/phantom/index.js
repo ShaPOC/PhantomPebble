@@ -122,7 +122,11 @@ try {
     );
 
     app.register(
-        require(paths.__modules + "arduino")
+        require(paths.__modules + "yuncom")
+    );
+
+    app.register(
+        require(paths.__modules + "airodump-ng")
     );
 
 

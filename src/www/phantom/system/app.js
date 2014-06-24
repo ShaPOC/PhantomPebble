@@ -13,7 +13,6 @@
  * @copyright codeProgressive
  */
 
-/*jslint node: true */
 'use strict';
 
 // Constructor
@@ -22,7 +21,7 @@ var appClass = function(options) {
     // Make sure the options parameters is an object
     if(typeof options !== 'undefined' && typeof options !== 'object') {
         throw new Error("The constructor for appClass expects the first " +
-        "parameter to be of type; 'object'. " + typeof options+ " given.");
+            "parameter to be of type; 'object'. " + typeof options+ " given.");
     }
 
     // Create an object to be filled by boot method objects
@@ -37,21 +36,21 @@ var appClass = function(options) {
 };
 
 /*
-|--------------------------------------------------------------------------
-| Register boot methods
-|--------------------------------------------------------------------------
-|
-| This method will register methods as a set method so they can be
-| executed properly by the boot process (completely event driven and neat)
-|
-| The first parameter accepts the function which will eventually be
-| called containing the entire boot object. This object contains various
-| event methods, so registered functions can be called subsequently.
-|
-| The second parameter is optional and will accept an Array containing
-| parameters for the function to use.
-|
-*/
+ |--------------------------------------------------------------------------
+ | Register boot methods
+ |--------------------------------------------------------------------------
+ |
+ | This method will register methods as a set method so they can be
+ | executed properly by the boot process (completely event driven and neat)
+ |
+ | The first parameter accepts the function which will eventually be
+ | called containing the entire boot object. This object contains various
+ | event methods, so registered functions can be called subsequently.
+ |
+ | The second parameter is optional and will accept an Array containing
+ | parameters for the function to use.
+ |
+ */
 
 appClass.prototype.register = function(module, parameters) {
 
@@ -60,7 +59,7 @@ appClass.prototype.register = function(module, parameters) {
 
     if(typeof module.boot !== 'function') {
         throw new Error("The register method for appClass expects the first " +
-        "parameter to be of type; 'function'. " + typeof options+ " given.");
+            "parameter to be of type; 'function'. " + typeof options+ " given.");
     }
 
     // Make sure the inserted parameter doesn't already
@@ -92,7 +91,7 @@ appClass.prototype.register = function(module, parameters) {
 
         for(var wn in app.dependencyExpectations[module.name]) {
             // Make sure they go in the waiting list
-            app.bootRegister[module.name].waitList[wn] = app.dependencyExpectations[module.name][wn];
+            app.bootRegister[module.name]["waitList"][wn] = app.dependencyExpectations[module.name][wn];
         }
         // Now that hey are in the proper place, remove them from the
         // dependency expectation list
@@ -112,21 +111,29 @@ appClass.prototype.register = function(module, parameters) {
 
 appClass.prototype.waitFor = function(name, dependency, callback) {
 
-    // If the module is already registered, then that's great
-    if(typeof this.bootRegister[dependency] !== 'undefined') {
+    // Make sure it's an array!
+    if(typeof dependency === 'string') {
+        dependency = [dependency];
+    }
 
-        this.bootRegister[dependency].waitList[name] = callback;
+    for(var x in dependency) {
 
-    // But if it's not, then wait for it to register first
-    } else {
+        // If the module is already registered, then that's great
+        if(typeof this.bootRegister[dependency[x]] !== 'undefined') {
 
-        // Make sure to create an object if required
-        if(typeof this.dependencyExpectations[dependency] === 'undefined') {
-            this.dependencyExpectations[dependency] = {};
+            this.bootRegister[dependency[x]]["waitList"][name] = callback;
+
+            // But if it's not, then wait for it to register first
+        } else {
+
+            // Make sure to create an object if required
+            if(typeof this.dependencyExpectations[dependency[x]] === 'undefined') {
+                this.dependencyExpectations[dependency[x]] = {};
+            }
+
+            // Then push it to the object so we can get it later
+            this.dependencyExpectations[dependency[x]][name] = callback;
         }
-
-        // Then push it to the object so we can get it later
-        this.dependencyExpectations[dependency][name] = callback;
     }
 };
 
@@ -155,25 +162,25 @@ appClass.prototype.done = function(name) {
     app.bootRegister[name].done = true;
 
     // Test to see if there are modules waiting, if not, just stop
-    if(Object.keys(app.bootRegister[name].waitList).length > 0) {
-        for(var wn in app.bootRegister[name].waitList) {
+    if(Object.keys(app.bootRegister[name]["waitList"]).length > 0) {
+        for(var wn in app.bootRegister[name]["waitList"]) {
             // We need the third parameter to be the instantiated object, for we
             // cannot be sure that it has access to it at the point of calling
-            app.bootRegister[name].waitList[wn](null, app, app[wn]);
+            app.bootRegister[name]["waitList"][wn](null, app, app[wn]);
         }
     }
 };
 
 /*
-|--------------------------------------------------------------------------
-| Boot now!
-|--------------------------------------------------------------------------
-|
-| Start the magic of the boot process! Here every method inserted before
-| will be triggered containing the boot object and the parameters as set
-| in the register method.
-|
-*/
+ |--------------------------------------------------------------------------
+ | Boot now!
+ |--------------------------------------------------------------------------
+ |
+ | Start the magic of the boot process! Here every method inserted before
+ | will be triggered containing the boot object and the parameters as set
+ | in the register method.
+ |
+ */
 
 appClass.prototype.boot = function() {
 

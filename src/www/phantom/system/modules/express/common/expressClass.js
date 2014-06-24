@@ -117,7 +117,8 @@ var expressClass = function(name, app) {
     addMiddleWare.addFolder(self.app, paths.__middleware, function(err){
 
         if(err) {
-            throw new Error(err);
+            console.log(err);
+//            throw new Error(err);
         }
 
         // Our own middleware
